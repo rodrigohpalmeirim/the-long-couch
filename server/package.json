@@ -11,15 +11,15 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/rodrigohpalmeirim/movie-night.git"
+		"url": "git+https://github.com/rodrigohpalmeirim/the-long-couch.git"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/rodrigohpalmeirim/movie-night/issues"
+		"url": "https://github.com/rodrigohpalmeirim/the-long-couch/issues"
 	},
-	"homepage": "https://github.com/rodrigohpalmeirim/movie-night#readme",
+	"homepage": "https://github.com/rodrigohpalmeirim/the-long-couch#readme",
 	"dependencies": {
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
