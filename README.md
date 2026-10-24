@@ -45,3 +45,7 @@ Run the server and the React dev server side by side. The dev server proxies req
 npm start                 # server on :5000
 cd client && npm install && npm start    # client on :3000 with hot reload
 ```
+
+## License
+
+[GPL-3.0-or-later](LICENSE)
