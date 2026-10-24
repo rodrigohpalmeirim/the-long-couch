@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# The Long Couch
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Watch videos together with friends, wherever they are. Open a room, paste a link to a video file and share the room link: everyone's playback stays in sync, so play, pause and seek happen for everyone at the same time.
 
-## Available Scripts
+**Try it: [the-long-couch.rodlabs.dev](https://the-long-couch.rodlabs.dev)**
 
-In the project directory, you can run:
+> Formerly called *Movie Night*. That name now belongs to a [different project](https://github.com/rodrigohpalmeirim/movie-night).
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Rooms by link**: opening the site creates a room with a random ID in the URL. Copy the link and send it to friends, who see how many people are in the room and the video's duration before they join.
+- **Synchronized playback**: play, pause and seek are broadcast to everyone in the room. People who join late start at the current position.
+- **Buffering-aware**: when someone seeks or their stream stalls, playback waits until everyone has buffered ("Waiting for N people's stream...") and then resumes for all.
+- **Any direct video URL**: the video plays in the browser's native `<video>` player from any URL it can stream (e.g. an `.mp4` link). Each viewer streams it themselves, so the server never handles video.
+- **Subtitles**: upload `.vtt` or `.srt` files (SRT is converted to WebVTT in the browser). They're shared with everyone in the room, including people who join later.
+- **Reconnects**: a client that loses its connection rejoins the room on its own.
+- Fullscreen toggle, controls that hide automatically, and a debug log you can download by pressing `l`.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## How it works
 
-### `npm test`
+- **Client** (`client/`): a React app (Create React App) built with React hooks and Font Awesome icons.
+- **Server** (`server/index.js`): a Node.js [Express](https://expressjs.com) server that serves the built client and runs a [Socket.IO](https://socket.io) server. It keeps the state of each room in memory (URL, subtitles, play/pause state, last known position, number of people, how many are still buffering) and relays playback events between clients.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The first version (2020) was peer-to-peer with PeerJS and deployed to GitHub Pages. In December 2021 it was rewritten around a central Socket.IO server.
 
-### `npm run build`
+## Running locally
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Requires Node.js and npm.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+git clone https://github.com/rodrigohpalmeirim/the-long-couch.git
+cd the-long-couch
+npm install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Build the client and start the server
+npm run build
+npm start          # http://localhost:5000 (set PORT to change)
+```
 
-### `npm run eject`
+### Development
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Run the server and the React dev server side by side. The dev server proxies requests to the server on port 5000:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```sh
+npm start                 # server on :5000
+cd client && npm install && npm start    # client on :3000 with hot reload
+```
